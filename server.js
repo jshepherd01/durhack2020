@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
 
     socket.on('join', (msg) => {
         // let the client join a room
-        console.log(`a user confirmed code ${msg}`);
+        console.log(`a user submitted code ${msg}`);
     });
     
     socket.on('disconnect', () => {

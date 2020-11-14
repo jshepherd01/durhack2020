@@ -11,7 +11,13 @@
         </script>
         <script>
             var socket = io();
-            socket.emit('join',roomCode);
+            socket.on('connect', () => {
+                socket.emit('join', roomCode);
+            });
+
+            socket.on('message', (msg) => {
+                console.log(`Incoming Message: ${msg}`);
+            });
         </script>
     </body>
 </html>

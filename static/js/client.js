@@ -6,10 +6,19 @@ socket.on('connect', () => {
     socket.emit('join', roomCode);
 });
 
-socket.on('join-success', () => {
-    console.log('Join Sucessful');
+// if they failed to join the room, redirect to the error page
+socket.on('join', (msg) => {
+    if (!msg) {
+        window.location.href = "/error.html";
+    }
 });
 
-socket.on('join-fail', () => {
-    console.log('Join Failed');
+function textChange(newText) {
+    // this should be called every time the code is updated
+    socket.emit('update', [roomCode, newText]);
+}
+
+socket.on('update', (msg) => {
+    // replace code inside editor with msg
+    console.log(msg);
 });

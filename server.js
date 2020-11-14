@@ -78,10 +78,18 @@ io.on('connection', (socket) => {
             // add the client to the room, and the list of the room's members
             socket.join(msg);
             rooms[msg]["Members"].push(socket.id);
-            socket.emit('join-success');
+            // tell the client they joined successfully, and give them the text everyone's working on
+            socket.emit('join', true);
+            socket.emit('update',rooms[msg]["Code"]);
         } else {
-            socket.emit('join-fail');
+            socket.emit('join',false);
         }
+    });
+
+    socket.on('update', (msg) => {
+        // when we recieve updated code from one user, update it in memory and alert the others
+        rooms[msg[0]]["Code"] = msg[1];
+        socket.to(msg[0]).emit('update',msg[1]);
     });
 
     socket.on('disconnect', () => {

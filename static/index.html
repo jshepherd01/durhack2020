@@ -37,14 +37,14 @@
                 <div class="mx-auto text-center">
                     <h1 class="mx-auto my-0 text-uppercase">CodeCollab</h1>
                     <h2 class="text-white-50 mx-auto mt-2 mb-5">Collaborate on coding projects online</h2>
-                    <a class="btn btn-primary js-scroll-trigger" href="#about">Create room</a>
+                    <a class="btn btn-primary js-scroll-trigger" href="/create">Create room</a>
                     <section class="signup-section" id="signup">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-10 col-lg-8 mx-auto text-center">
                                     <h2 class="text-white mb-5">Or enter a unique room code to join someone else's</h2>
-                                    <form class="form-inline d-flex">
-                                        <input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputCode" type="code" placeholder="Enter room code..." />
+                                    <form class="form-inline d-flex" action="/join", method="GET">
+                                        <input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputCode" type="code" placeholder="Enter room code..." name="q"/>
                                         <button class="btn btn-primary mx-auto" type="submit">Join room</button>
                                     </form>
                                 </div>

@@ -38,7 +38,7 @@ app.use(express.static('static')); // serve some pages from static
 app.get('/create', (req, res) => {
     // generate a room code, redirect to join?q=code
     let code = MakeRoomCode();
-    rooms[code] = "";
+    rooms[code] = {"Code": "", "Members": []};
     res.writeHead(302, {'Location': `/join?q=${code}`});
     res.end();
 });
@@ -46,7 +46,7 @@ app.get('/create', (req, res) => {
 app.get('/join', (req, res) => {
     // if the room exists, send the appropriate file
     if (req.query.q in rooms) {
-        fs.readFile(`${__dirname}/client/client.html`,'utf8', function(err, data) {
+        fs.readFile(`${__dirname}/dynamic/client.html`,'utf8', function(err, data) {
             if (err) throw err;
             // give the client the room code, so that they can attempt to join it
             var result = data.replace('<xml id="roomCode">XXXXXX</xml>', req.query.q);
@@ -74,11 +74,33 @@ io.on('connection', (socket) => {
     socket.on('join', (msg) => {
         // let the client join a room
         console.log(`a user submitted code ${msg}`);
+        if (msg in rooms) {
+            // add the client to the room, and the list of the room's members
+            socket.join(msg);
+            rooms[msg]["Members"].push(socket.id);
+            socket.emit('join-success');
+        } else {
+            socket.emit('join-fail');
+        }
     });
-    
+
     socket.on('disconnect', () => {
         // handle the client disconnecting
         console.log('a user disconnected');
+
+        // for each room, check if the client was in it
+        Object.entries(rooms).forEach(([key, value]) => {
+            value.Members.forEach((id) => {
+                if (id==socket.id) {
+                    // if the client was there, remove them from the list of members
+                    delete value.Members[value.Members.indexOf(id)];
+                }
+            });
+            // if a room has no more members, remove it
+            if (Object.values(value.Members).length == 0) {
+                delete rooms[key];
+            }
+        });
     });
 });
 

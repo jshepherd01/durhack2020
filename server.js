@@ -29,6 +29,10 @@ function MakeRoomCode() {
     return(result);
 }
 
+/*
+** serving pages
+*/
+
 app.use(express.static('static')); // serve some pages from static
 
 app.get('/create', (req, res) => {
@@ -42,7 +46,7 @@ app.get('/create', (req, res) => {
 app.get('/join', (req, res) => {
     // if the room exists, send the appropriate file
     if (req.query.q in rooms) {
-        fs.readFile('client/client.html','utf8', function(err, data) {
+        fs.readFile(`${__dirname}/client/client.html`,'utf8', function(err, data) {
             if (err) throw err;
             // give the client the room code, so that they can attempt to join it
             var result = data.replace('<xml id="roomCode">XXXXXX</xml>', req.query.q);
@@ -50,10 +54,18 @@ app.get('/join', (req, res) => {
         });
     } else {
         // if the room doesn't exist, 404 error
-        res.writeHead(404);
-        res.end();
+        res.status(404).sendFile(`${__dirname}/static/error.html`);
     }
 });
+
+app.get('*', (req, res) => {
+    // if any url is used that we can't handle, send a 404 error
+    res.status(404).sendFile(`${__dirname}/static/error.html`);
+});
+
+/*
+** websockets
+*/
 
 io.on('connection', (socket) => {
     // handling websocket connections

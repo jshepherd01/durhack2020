@@ -10340,3 +10340,11 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+.code-editor {
+
+  padding-top: 40rem;
+  background-color: #000000;
+  margin: 5rem;
+  width: 90rem;
+}

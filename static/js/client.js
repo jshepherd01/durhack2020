@@ -1,5 +1,6 @@
 // initialise the socket
 var socket = io();
+const editor = document.querySelector('.code-editor');
 
 // connect to a room
 socket.on('connect', () => {
@@ -13,6 +14,10 @@ socket.on('join', (msg) => {
     }
 });
 
+editor.addEventListener("input", () => {
+    socket.emit('update', [roomCode, editor.value]);
+});
+
 function textChange(newText) {
     // this should be called every time the code is updated
     socket.emit('update', [roomCode, newText]);
@@ -20,5 +25,5 @@ function textChange(newText) {
 
 socket.on('update', (msg) => {
     // replace code inside editor with msg
-    console.log(msg);
+    editor.value = msg;
 });

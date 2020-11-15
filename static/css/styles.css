@@ -10251,7 +10251,7 @@ body {
 
 .about-section {
   padding-top: 10rem;
-  background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
+  background-color: #000000;
 }
 .about-section p {
   margin-bottom: 5rem;
@@ -10287,6 +10287,7 @@ body {
 .signup-section {
  padding: 20px;
  height: 200px;
+ 
 }
 .signup-section .form-inline input {
   box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;

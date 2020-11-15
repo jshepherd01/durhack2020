@@ -10343,10 +10343,10 @@ body {
 
 .code-editor {
 
-  padding-top: 40rem;
+  
   background-color: #000000;
   margin: 5rem;
   width: 90rem;
-  height: auto;
+  height: 40rem;
   color: #fff;
 }

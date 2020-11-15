@@ -2,6 +2,8 @@
 var socket = io();
 const editor = document.querySelector('.code-editor');
 
+document.querySelector("#code").innerText = roomCode;
+
 // connect to a room
 socket.on('connect', () => {
     socket.emit('join', roomCode);

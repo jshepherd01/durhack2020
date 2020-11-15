@@ -46,7 +46,7 @@ app.get('/create', (req, res) => {
 app.get('/join', (req, res) => {
     // if the room exists, send the appropriate file
     if (req.query.q in rooms) {
-        fs.readFile(`${__dirname}/dynamic/client.html`,'utf8', function(err, data) {
+        fs.readFile(`${__dirname}/dynamic/editor.html`,'utf8', function(err, data) {
             if (err) throw err;
             // give the client the room code, so that they can attempt to join it
             var result = data.replace('<xml id="roomCode">XXXXXX</xml>', req.query.q);
